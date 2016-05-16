@@ -55,8 +55,6 @@ public class Poslanik {
 				+ "]";
 	}
 
-	
-	
 	public int getId() {
 		return id;
 	}

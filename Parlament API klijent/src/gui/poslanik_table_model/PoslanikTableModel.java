@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import parlament.poslanik.Poslanik;
@@ -81,13 +82,17 @@ public class PoslanikTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		Poslanik p = poslanici.get(rowIndex);
 
+		boolean greska = false;
+		String poruka = "";
+		
 		switch (columnIndex) {
 			case 1:
 				String ime = aValue.toString();
 				if (ime != null && !ime.trim().isEmpty()) {
 					p.setIme(ime);
 				} else {
-					
+					greska = true;
+					poruka = "Ime ne sme biti prazan string.";
 				}
 				break;
 	
@@ -96,7 +101,8 @@ public class PoslanikTableModel extends AbstractTableModel {
 				if (prezime != null && !prezime.trim().isEmpty()) {
 					p.setPrezime(prezime);
 				} else {
-					
+					greska = true;
+					poruka = "Prezime ne sme biti prazan string.";
 				}
 				break;
 	
@@ -106,7 +112,8 @@ public class PoslanikTableModel extends AbstractTableModel {
 					Date datum = sdf.parse(datumString);
 					p.setDatumRodjenja(datum);
 				} catch (ParseException e) {
-	
+					greska = true;
+					poruka = "Datum mora biti u formatu: dd.MM.yyyy.";
 				}
 	
 				break;
@@ -115,14 +122,17 @@ public class PoslanikTableModel extends AbstractTableModel {
 				return;
 		}
 
+		if (greska) {
+			JOptionPane.showMessageDialog(null, poruka, "Greska", JOptionPane.ERROR_MESSAGE);
+		}
+		
 		fireTableCellUpdated(rowIndex, columnIndex);
 
 	}
 
 	public void setPoslanici(List<Poslanik> poslanici) {
 		if (poslanici != null) {
-			this.poslanici.clear();
-			this.poslanici.addAll(poslanici);
+			this.poslanici = poslanici;
 			fireTableDataChanged();
 		}
 	}

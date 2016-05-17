@@ -77,7 +77,6 @@ public class Kontroler {
 			List<Poslanik> poslanici = deserijalizujPoslanike();
 
 			PoslanikTableModel ptm = (PoslanikTableModel) gf.getTable().getModel();
-			ptm.isprazniListu();
 			ptm.setPoslanici(poslanici);
 
 			dodajUStatus("Tabela je popunjena poslanicima preuzetim iz servisa.");

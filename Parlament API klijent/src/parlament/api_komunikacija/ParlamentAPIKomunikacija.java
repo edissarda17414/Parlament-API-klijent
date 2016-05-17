@@ -81,5 +81,30 @@ public class ParlamentAPIKomunikacija {
 		return tekst;
 
 	}
+	
+	public static JsonArray prebaciIzListeUJsonNiz(List<Poslanik> poslanici) {
+		JsonArray jsonArray = new JsonArray();
+		
+		JsonObject jsonObject = null;
+		
+		for (int i = 0; i < poslanici.size(); i++) {
+			Poslanik p = poslanici.get(i);
+			
+			jsonObject = new JsonObject();
+			jsonObject.addProperty("id", p.getId());
+			jsonObject.addProperty("name", p.getIme());
+			jsonObject.addProperty("lastName", p.getPrezime());
+			try {
+				jsonObject.addProperty("birthDate", sdf.format(p.getDatumRodjenja()));
+			} catch (Exception e) {
+				jsonObject.addProperty("birthDate", "nepoznato");
+			}
+			
+			jsonArray.add(jsonObject);
+			
+		}
+		
+		return jsonArray;
+	}
 
 }

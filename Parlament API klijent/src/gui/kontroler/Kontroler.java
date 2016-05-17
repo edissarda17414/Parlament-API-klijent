@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -119,6 +120,28 @@ public class Kontroler {
 		}
 
 		return poslanici;
+	}
+
+	public static void updateMembers() {
+		PoslanikTableModel ptm = (PoslanikTableModel) gf.getTable().getModel();
+		
+		List<Poslanik> poslanici = ptm.getPoslanici();
+		
+		JsonArray jsonArray = ParlamentAPIKomunikacija.prebaciIzListeUJsonNiz(poslanici);
+		
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("data/updatedMembers.json")));
+			
+			out.println(new GsonBuilder().setPrettyPrinting().create().toJson(jsonArray));
+			
+			out.close();
+			
+			dodajUStatus("Izmenjeni poslanici su sacuvani.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(gf, "Doslo je do greske prilikom cuvanja poslanika!", "Greska",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 
 }

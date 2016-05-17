@@ -126,6 +126,10 @@ public class PoslanikTableModel extends AbstractTableModel {
 			fireTableDataChanged();
 		}
 	}
+	
+	public List<Poslanik> getPoslanici() {
+		return poslanici;
+	}
 
 	public void isprazniListu() {
 		poslanici = new LinkedList<>();
